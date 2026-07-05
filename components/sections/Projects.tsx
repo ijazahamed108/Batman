@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Code2, ExternalLink } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { projects } from "@/data/content";
+import { easeSmooth, fadeUp } from "@/lib/motion";
 
 const categories = ["All", "React", "Node.js", "AWS", "Java"];
 
@@ -17,14 +18,9 @@ export function Projects() {
       : projects.filter((project) => project.category.includes(selectedCategory));
 
   return (
-    <section id="projects" className="py-20 relative">
+    <section id="projects" className="section-shell py-20 relative">
       <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
+        <motion.div {...fadeUp}>
           <h2 className="text-4xl md:text-5xl font-display font-bold mb-4 text-center">
             Gadgets & <span className="text-primary">Builds</span>
           </h2>
@@ -56,10 +52,14 @@ export function Projects() {
                 <motion.div
                   key={project.id}
                   layout
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ duration: 0.3, delay: index * 0.05 }}
+                  initial={{ opacity: 0, y: 18, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.96 }}
+                  transition={{
+                    duration: 0.24,
+                    delay: Math.min(index * 0.04, 0.2),
+                    ease: easeSmooth,
+                  }}
                 >
                   <Card className="glass-panel glow-border h-full hover:border-primary/40 transition-all group">
                     <CardHeader>

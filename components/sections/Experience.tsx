@@ -5,19 +5,15 @@ import { motion } from "framer-motion";
 import { Briefcase, MapPin, Calendar } from "lucide-react";
 import { experience } from "@/data/content";
 import Image from "next/image";
+import { fadeUp, slideIn } from "@/lib/motion";
 
 export function Experience() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
-    <section id="experience" className="py-20 relative">
+    <section id="experience" className="section-shell py-20 relative">
       <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
+        <motion.div {...fadeUp}>
           <h2 className="text-4xl md:text-5xl font-display font-bold mb-4 text-center">
             Mission <span className="text-primary">Case Files</span>
           </h2>
@@ -29,10 +25,7 @@ export function Experience() {
             {experience.map((job, index) => (
               <motion.div
                 key={job.id}
-                initial={{ opacity: 0, x: index % 2 === 0 ? -100 : 100 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: false, amount: 0.3 }}
-                transition={{ duration: 0.8, delay: index * 0.2 }}
+                {...slideIn(index % 2 === 0 ? "left" : "right", index * 0.08)}
                 className="relative pl-8 pb-12 last:pb-0"
                 onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}
@@ -105,17 +98,13 @@ export function Experience() {
 
                   <ul className="space-y-2 mb-4 relative z-10">
                     {job.achievements.map((achievement, i) => (
-                      <motion.li
+                      <li
                         key={i}
-                        initial={{ opacity: 0, x: -10 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.4, delay: i * 0.05 }}
                         className="text-muted-foreground flex gap-2"
                       >
                         <span className="text-primary mt-1.5">▸</span>
                         <span>{achievement}</span>
-                      </motion.li>
+                      </li>
                     ))}
                   </ul>
 

@@ -8,11 +8,19 @@ export function InitialLogoAnimation() {
   const [showLogo, setShowLogo] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowLogo(false);
-    }, 1000);
+    document.body.style.overflow = showLogo ? "hidden" : "";
 
-    return () => clearTimeout(timer);
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [showLogo]);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setShowLogo(false);
+    }, 850);
+
+    return () => window.clearTimeout(timer);
   }, []);
 
   return (
@@ -21,49 +29,22 @@ export function InitialLogoAnimation() {
         <motion.div
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
           className="fixed inset-0 z-[100] bg-gotham-darker flex items-center justify-center"
         >
-          {/* Lightning Flash Background */}
           <motion.div
-            animate={{
-              opacity: [0, 0.3, 0, 0.5, 0],
-            }}
-            transition={{
-              duration: 2,
-              times: [0, 0.2, 0.4, 0.6, 1],
-            }}
+            animate={{ opacity: [0, 0.25, 0, 0.35, 0] }}
+            transition={{ duration: 0.85, times: [0, 0.2, 0.4, 0.6, 1] }}
             className="absolute inset-0 bg-primary/20"
           />
 
-          {/* Batman Logo */}
           <motion.div
-            initial={{ scale: 0, rotate: -180 }}
-            animate={{
-              scale: [0, 1.2, 1],
-              rotate: [-180, 0, 0],
-            }}
-            transition={{
-              duration: 1.5,
-              times: [0, 0.7, 1],
-              ease: "easeOut",
-            }}
+            initial={{ scale: 0.6, rotate: -90, opacity: 0 }}
+            animate={{ scale: 1, rotate: 0, opacity: 1 }}
+            transition={{ duration: 0.55, ease: [0.25, 0.1, 0.25, 1] }}
             className="relative z-10"
           >
-            <motion.div
-              animate={{
-                filter: [
-                  "drop-shadow(0 0 20px rgba(245,197,66,0.8))",
-                  "drop-shadow(0 0 40px rgba(245,197,66,1))",
-                  "drop-shadow(0 0 20px rgba(245,197,66,0.8))",
-                ],
-              }}
-              transition={{
-                duration: 1.5,
-                repeat: 1,
-              }}
-              className="relative w-80 h-80"
-            >
+            <div className="relative h-56 w-56 md:h-72 md:w-72 drop-shadow-[0_0_30px_rgba(245,197,66,0.85)]">
               <Image
                 src="/batman-logo.png"
                 alt="Batman"
@@ -71,15 +52,14 @@ export function InitialLogoAnimation() {
                 className="object-contain"
                 priority
               />
-            </motion.div>
+            </div>
           </motion.div>
 
-          {/* Radial Pulse */}
           <motion.div
-            initial={{ scale: 0, opacity: 0.8 }}
-            animate={{ scale: 4, opacity: 0 }}
-            transition={{ duration: 2, ease: "easeOut" }}
-            className="absolute w-96 h-96 rounded-full bg-primary/40 blur-3xl"
+            initial={{ scale: 0.4, opacity: 0.7 }}
+            animate={{ scale: 2.5, opacity: 0 }}
+            transition={{ duration: 0.75, ease: "easeOut" }}
+            className="absolute h-72 w-72 rounded-full bg-primary/35 blur-3xl"
           />
         </motion.div>
       )}

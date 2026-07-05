@@ -4,7 +4,9 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Mail, Linkedin, Github, Instagram, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { MediumIcon } from "@/components/ui/MediumIcon";
 import { personalInfo } from "@/data/content";
+import { fadeUp, fadeUpDelayed } from "@/lib/motion";
 
 export function Contact() {
   const [formData, setFormData] = useState({
@@ -48,14 +50,9 @@ export function Contact() {
   };
 
   return (
-    <section id="contact" className="py-20 relative">
+    <section id="contact" className="section-shell py-20 relative">
       <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
+        <motion.div {...fadeUp}>
           <h2 className="text-4xl md:text-5xl font-display font-bold mb-4 text-center">
             Commission the Next <span className="text-primary">Mission</span>
           </h2>
@@ -65,13 +62,7 @@ export function Contact() {
 
           <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-8">
             {/* Contact Info */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="space-y-6"
-            >
+            <motion.div {...fadeUpDelayed(0.08)} className="space-y-6">
               <div className="glass-panel glow-border p-6 rounded-xl">
                 <h3 className="text-2xl font-display font-bold mb-6">Get in Touch</h3>
 
@@ -120,6 +111,21 @@ export function Contact() {
                   </a>
 
                   <a
+                    href={personalInfo.medium}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-4 p-4 rounded-lg hover:bg-primary/10 transition-all group"
+                  >
+                    <div className="p-3 rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-all">
+                      <MediumIcon className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-muted-foreground">Medium</p>
+                      <p className="font-medium">Read my articles</p>
+                    </div>
+                  </a>
+
+                  <a
                     href={personalInfo.instagram}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -138,12 +144,7 @@ export function Contact() {
             </motion.div>
 
             {/* Contact Form */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
+            <motion.div {...fadeUpDelayed(0.14)}>
               <form onSubmit={handleSubmit} className="glass-panel glow-border p-6 rounded-xl space-y-4">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium mb-2">

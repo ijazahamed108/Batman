@@ -11,17 +11,19 @@ export const translations = {
     },
     hero: {
       tagline: "The Engineer Behind the Mask",
-      role: "Full-Stack / Backend-leaning Engineer",
-      subtitle: "React + AWS Serverless Specialist",
+      role: "Senior Software Engineer",
+      subtitle: "Event-Driven & Serverless Systems on AWS",
       viewProjects: "View Projects",
       contactMe: "Contact Me",
     },
     about: {
       title: "The Engineer Behind the",
       titleHighlight: "Mask",
+      eyebrow: "The Origin Story",
       summary: [
-        "Engineer with strong AWS serverless, React/TS, Node.js expertise, specializing in observability, performance optimization, and internationalization.",
-        "Proven track record in real-time data ingestion, ETL/reporting orchestration, caching + GraphQL optimizations, and cost reduction via telemetry modernization.",
+        "I turn ambitious product ideas into production-grade systems — built to scale, built to last.",
+        "I'm Ijaz — an engineer with nearly six years of experience building software that has to work in the real world: high-traffic platforms, connected-device ecosystems, and products where performance, reliability, and clarity matter from day one.",
+        "My work lives at the intersection of modern web development and AWS serverless architecture. React and TypeScript on the surface. Node.js, event-driven pipelines, and distributed systems underneath.",
       ],
     },
     skills: {
@@ -86,8 +88,8 @@ export const translations = {
     },
     hero: {
       tagline: "ముసుగు వెనుక ఇంజనీర్",
-      role: "ఫుల్-స్టాక్ / బ్యాకెండ్ ఇంజనీర్",
-      subtitle: "రియాక్ట్ + AWS సర్వర్లెస్ స్పెషలిస్ట్",
+      role: "Senior Software Engineer",
+      subtitle: "AWSలో Event-Driven & Serverless Systems",
       viewProjects: "ప్రాజెక్టులు చూడండి",
       contactMe: "నన్ను సంప్రదించండి",
     },
@@ -95,6 +97,8 @@ export const translations = {
       title: "ముసుగు వెనుక",
       titleHighlight: "ఇంజనీర్",
       summary: [
+        "Senior Software Engineer with nearly 6 years building event-driven, serverless systems and full-stack applications on AWS. Reduced cloud costs by 45% and improved search/dashboard latency by 50% on a production HVAC IoT platform, and cut order-processing time by 80% in high-scale EdTech systems.",
+        "Strong in Node.js/TypeScript, React, distributed systems, and performance optimization across HVAC IoT, EdTech, and enterprise domains.",
         "బలమైన AWS సర్వర్లెస్, రియాక్ట్/TS, Node.js నైపుణ్యం కలిగిన ఇంజనీర్, పరిశీలన, పనితీరు ఆప్టిమైజేషన్ మరియు అంతర్జాతీయీకరణలో నైపుణ్యం కలిగి ఉన్నారు.",
         "రియల్-టైమ్ డేటా ఇంజెస్షన్, ETL/రిపోర్టింగ్ ఆర్కెస్ట్రేషన్, క్యాషింగ్ + GraphQL ఆప్టిమైజేషన్లు మరియు టెలిమెట్రీ ఆధునికీకరణ ద్వారా ఖర్చు తగ్గింపులో నిరూపితమైన ట్రాక్ రికార్డ్.",
       ],
@@ -161,8 +165,8 @@ export const translations = {
     },
     hero: {
       tagline: "मास्क के पीछे इंजीनियर",
-      role: "फुल-स्टैक / बैकएंड इंजीनियर",
-      subtitle: "रिएक्ट + AWS सर्वरलेस स्पेशलिस्ट",
+      role: "सीनियर सॉफ्टवेयर इंजीनियर",
+      subtitle: "AWS पर Event-Driven & Serverless Systems",
       viewProjects: "प्रोजेक्ट्स देखें",
       contactMe: "मुझसे संपर्क करें",
     },
@@ -170,6 +174,8 @@ export const translations = {
       title: "मास्क के पीछे",
       titleHighlight: "इंजीनियर",
       summary: [
+        "Senior Software Engineer with nearly 6 years building event-driven, serverless systems and full-stack applications on AWS. Reduced cloud costs by 45% and improved search/dashboard latency by 50% on a production HVAC IoT platform, and cut order-processing time by 80% in high-scale EdTech systems.",
+        "Strong in Node.js/TypeScript, React, distributed systems, and performance optimization across HVAC IoT, EdTech, and enterprise domains.",
         "मजबूत AWS सर्वरलेस, रिएक्ट/TS, Node.js विशेषज्ञता वाले इंजीनियर, अवलोकन, प्रदर्शन अनुकूलन और अंतर्राष्ट्रीयकरण में विशेषज्ञता रखते हैं।",
         "रियल-टाइम डेटा इंजेस्शन, ETL/रिपोर्टिंग ऑर्केस्ट्रेशन, कैशिंग + GraphQL अनुकूलन, और टेलीमेट्री आधुनिकीकरण के माध्यम से लागत में कमी में सिद्ध ट्रैक रिकॉर्ड।",
       ],

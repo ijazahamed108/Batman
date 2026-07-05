@@ -3,6 +3,9 @@
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { SectionTransition } from "@/components/layout/SectionTransition";
+import { ScrollProgress } from "@/components/layout/ScrollProgress";
+import { HomeAboutBridge } from "@/components/layout/HomeAboutBridge";
+import { SectionDivider } from "@/components/layout/SectionDivider";
 import { InitialLogoAnimation } from "@/components/layout/InitialLogoAnimation";
 import { Hero } from "@/components/sections/Hero";
 import { About } from "@/components/sections/About";
@@ -19,15 +22,23 @@ export default function Home() {
     <LanguageProvider>
       <main className="min-h-screen">
         <InitialLogoAnimation />
+        <ScrollProgress />
         <SectionTransition />
         <Navbar />
         <Hero />
+        <HomeAboutBridge />
         <About />
+        <SectionDivider />
         <Skills />
+        <SectionDivider />
         <Experience />
+        <SectionDivider />
         <Projects />
+        <SectionDivider />
         <Certifications />
+        <SectionDivider />
         <Education />
+        <SectionDivider />
         <Contact />
         <Footer />
       </main>

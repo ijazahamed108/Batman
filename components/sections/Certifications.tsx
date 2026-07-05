@@ -1,53 +1,117 @@
 "use client";
 
-import { motion, useMotionValue } from "framer-motion";
-import { Award, ExternalLink } from "lucide-react";
+import { animate, motion, useMotionValue, useMotionValueEvent, useTransform } from "framer-motion";
+import { Award, ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
 import { certifications } from "@/data/content";
+import { fadeUp } from "@/lib/motion";
 import { useRef, useState } from "react";
+
+const DRAG_LIMIT = 1500;
+const SCROLL_STEP = 196;
+const SCROLL_TRANSITION = { type: "tween" as const, duration: 0.2, ease: [0.25, 0.1, 0.25, 1] as const };
 
 export function Certifications() {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const scrollAnimationRef = useRef<ReturnType<typeof animate> | null>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [hasInteracted, setHasInteracted] = useState(false);
+  const [atStart, setAtStart] = useState(true);
+  const [atEnd, setAtEnd] = useState(false);
   const x = useMotionValue(0);
+  const progressWidth = useTransform(x, [0, -DRAG_LIMIT], ["8%", "100%"]);
+
+  useMotionValueEvent(x, "change", (latest) => {
+    setAtStart(latest >= -8);
+    setAtEnd(latest <= -DRAG_LIMIT + 8);
+  });
+
+  const scrollBy = (direction: "left" | "right") => {
+    setHasInteracted(true);
+    scrollAnimationRef.current?.stop();
+
+    const current = x.get();
+    const next =
+      direction === "left"
+        ? Math.min(0, current + SCROLL_STEP)
+        : Math.max(-DRAG_LIMIT, current - SCROLL_STEP);
+
+    scrollAnimationRef.current = animate(x, next, SCROLL_TRANSITION);
+  };
 
   // Triple the certifications for infinite scroll effect
   const extendedCerts = [...certifications, ...certifications, ...certifications];
 
   return (
-    <section id="certifications" className="py-20 relative overflow-hidden">
+    <section id="certifications" className="section-shell py-20 relative overflow-hidden">
       <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
+        <motion.div {...fadeUp}>
           <h2 className="text-4xl md:text-5xl font-display font-bold mb-4 text-center">
             Professional <span className="text-primary">Certifications</span>
           </h2>
           <p className="text-center text-muted-foreground mb-8">
             Verified credentials from Udemy and Coursera
           </p>
-          <p className="text-center text-sm text-muted-foreground mb-8">
-            Drag to scroll →
-          </p>
 
           {/* Roulette Belt Container */}
           <div className="relative max-w-6xl mx-auto">
             {/* Left gradient fade */}
             <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-gotham-dark to-transparent z-10 pointer-events-none" />
-            
+
             {/* Right gradient fade */}
             <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-gotham-dark to-transparent z-10 pointer-events-none" />
+
+            {/* Scroll controls */}
+            <motion.button
+              type="button"
+              initial={{ opacity: 1 }}
+              animate={{ opacity: hasInteracted && atStart ? 0.35 : 1 }}
+              transition={{ duration: 0.4 }}
+              onClick={() => scrollBy("left")}
+              disabled={atStart}
+              whileTap={{ scale: 0.92 }}
+              aria-label="Scroll certifications left"
+              className="absolute left-3 top-1/2 -translate-y-1/2 z-20 rounded-full glass-panel glow-border px-2 py-2 text-primary transition-colors hover:border-primary/60 hover:bg-primary/10 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-transparent"
+            >
+              <motion.span
+                animate={atStart ? { x: 0 } : { x: [-2, -8, -2] }}
+                transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+                className="flex items-center"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </motion.span>
+            </motion.button>
+
+            <motion.button
+              type="button"
+              initial={{ opacity: 1 }}
+              animate={{ opacity: hasInteracted && atEnd ? 0.35 : 1 }}
+              transition={{ duration: 0.4 }}
+              onClick={() => scrollBy("right")}
+              disabled={atEnd}
+              whileTap={{ scale: 0.92 }}
+              aria-label="Scroll certifications right"
+              className="absolute right-3 top-1/2 -translate-y-1/2 z-20 rounded-full glass-panel glow-border px-2 py-2 text-primary transition-colors hover:border-primary/60 hover:bg-primary/10 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-transparent"
+            >
+              <motion.span
+                animate={atEnd ? { x: 0 } : { x: [2, 8, 2] }}
+                transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+                className="flex items-center"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </motion.span>
+            </motion.button>
 
             {/* Scrollable Belt */}
             <div className="overflow-hidden py-4">
               <motion.div
                 ref={scrollRef}
                 drag="x"
-                dragConstraints={{ left: -1500, right: 0 }}
+                dragConstraints={{ left: -DRAG_LIMIT, right: 0 }}
                 dragElastic={0.1}
-                onDragStart={() => setIsDragging(true)}
+                onDragStart={() => {
+                  setIsDragging(true);
+                  setHasInteracted(true);
+                }}
                 onDragEnd={() => setIsDragging(false)}
                 style={{ x }}
                 className="flex gap-4 cursor-grab active:cursor-grabbing"
@@ -57,7 +121,7 @@ export function Certifications() {
                     key={`${cert.title}-${index}`}
                     whileHover={{ scale: isDragging ? 1 : 1.05 }}
                     className="glass-panel glow-border rounded-lg p-4 flex-shrink-0 w-[180px] hover:border-primary/40 transition-all group"
-                    style={{ pointerEvents: isDragging ? 'none' : 'auto' }}
+                    style={{ pointerEvents: isDragging ? "none" : "auto" }}
                   >
                     <div className="flex flex-col items-center text-center gap-3">
                       <div className="p-2 rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-all">
@@ -83,6 +147,29 @@ export function Certifications() {
                   </motion.div>
                 ))}
               </motion.div>
+            </div>
+
+            {/* Horizontal scroll indicator */}
+            <div className="mt-4 px-6">
+              <div
+                className="relative h-1.5 rounded-full bg-muted/40 overflow-hidden"
+                aria-hidden="true"
+              >
+                <motion.div
+                  className="absolute inset-y-0 left-0 rounded-full bg-primary shadow-[0_0_12px_rgba(245,197,66,0.45)]"
+                  style={{ width: progressWidth }}
+                />
+              </div>
+
+              <motion.p
+                initial={{ opacity: 1 }}
+                animate={{ opacity: hasInteracted ? 0.6 : 1 }}
+                className="mt-3 text-center text-xs text-muted-foreground flex items-center justify-center gap-2"
+              >
+                <ChevronLeft className="w-3.5 h-3.5 text-primary" />
+                <span>Drag or use arrows to explore certifications</span>
+                <ChevronRight className="w-3.5 h-3.5 text-primary" />
+              </motion.p>
             </div>
           </div>
         </motion.div>

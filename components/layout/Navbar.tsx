@@ -8,52 +8,36 @@ import { BatmanLogo } from "@/components/ui/BatmanLogo";
 import { LanguageSelector } from "@/components/ui/LanguageSelector";
 import { useLanguage } from "@/lib/LanguageContext";
 import { translations } from "@/lib/translations";
+import { scrollToSection, useActiveSection } from "@/lib/useActiveSection";
 
 export function Navbar() {
-  const [activeSection, setActiveSection] = useState("home");
+  const activeSection = useActiveSection();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { language } = useLanguage();
   const t = translations[language].nav;
 
   const navItems = [
-    { name: t.home, href: "#home" },
-    { name: t.about, href: "#about" },
-    { name: t.skills, href: "#skills" },
-    { name: t.experience, href: "#experience" },
-    { name: t.projects, href: "#projects" },
-    { name: "Certifications", href: "#certifications" },
-    { name: t.education, href: "#education" },
-    { name: t.contact, href: "#contact" },
+    { name: t.home, href: "#home", id: "home" },
+    { name: t.about, href: "#about", id: "about" },
+    { name: t.skills, href: "#skills", id: "skills" },
+    { name: t.experience, href: "#experience", id: "experience" },
+    { name: t.projects, href: "#projects", id: "projects" },
+    { name: "Certifications", href: "#certifications", id: "certifications" },
+    { name: t.education, href: "#education", id: "education" },
+    { name: t.contact, href: "#contact", id: "contact" },
   ];
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-
-      const sections = navItems.map((item) => item.href.slice(1));
-      const current = sections.find((section) => {
-        const element = document.getElementById(section);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          return rect.top <= 100 && rect.bottom >= 100;
-        }
-        return false;
-      });
-
-      if (current) setActiveSection(current);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setIsScrolled(window.scrollY > 50);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-      setIsMobileMenuOpen(false);
-    }
+  const handleNavClick = (href: string) => {
+    scrollToSection(href.slice(1));
+    setIsMobileMenuOpen(false);
   };
 
   return (
@@ -81,16 +65,16 @@ export function Navbar() {
             {navItems.map((item) => (
               <button
                 key={item.name}
-                onClick={() => scrollToSection(item.href)}
+                onClick={() => handleNavClick(item.href)}
                 className={cn(
                   "px-4 py-2 rounded-lg text-sm font-medium transition-all relative",
-                  activeSection === item.href.slice(1)
+                  activeSection === item.id
                     ? "text-primary"
                     : "text-muted-foreground hover:text-foreground"
                 )}
               >
                 {item.name}
-                {activeSection === item.href.slice(1) && (
+                {activeSection === item.id && (
                   <motion.div
                     layoutId="activeSection"
                     className="absolute inset-0 bg-primary/10 rounded-lg -z-10"
@@ -122,10 +106,10 @@ export function Navbar() {
             {navItems.map((item) => (
               <button
                 key={item.name}
-                onClick={() => scrollToSection(item.href)}
+                onClick={() => handleNavClick(item.href)}
                 className={cn(
                   "block w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-all",
-                  activeSection === item.href.slice(1)
+                  activeSection === item.id
                     ? "text-primary bg-primary/10"
                     : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                 )}

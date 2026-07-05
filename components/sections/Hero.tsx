@@ -1,39 +1,73 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { ArrowDown, Github, Linkedin, Mail, Instagram } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { MediumIcon } from "@/components/ui/MediumIcon";
 import { personalInfo } from "@/data/content";
 import { BatmanLogo } from "@/components/ui/BatmanLogo";
 import { useTranslation } from "@/lib/useTranslation";
+import { scrollToSection } from "@/lib/useActiveSection";
 import Image from "next/image";
+import { useRef } from "react";
 
 export function Hero() {
   const t = useTranslation();
-  const scrollToSection = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  const reduceMotion = useReducedMotion();
+  const heroRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+
+  const backgroundOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [1, 0.6, 0]);
+  const overlayOpacity = useTransform(scrollYProgress, [0, 0.55, 1], [0.82, 0.92, 1]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.6, 1], [1, 0.7, 0.15]);
+  const contentY = useTransform(scrollYProgress, [0, 1], [0, -72]);
+  const contentScale = useTransform(scrollYProgress, [0, 1], [1, 0.97]);
+  const spotlightOpacity = useTransform(scrollYProgress, [0, 0.75, 1], [0.2, 0.08, 0]);
+  const scrollHintOpacity = useTransform(scrollYProgress, [0, 0.35], [1, 0]);
+
+  const scrollToSectionId = (id: string) => {
+    scrollToSection(id);
   };
 
   return (
     <section
+      ref={heroRef}
       id="home"
       className="relative min-h-screen flex items-center justify-center overflow-hidden noise-bg"
     >
       {/* Home Page Background */}
-      <div 
+      <motion.div
+        style={
+          reduceMotion
+            ? undefined
+            : { opacity: backgroundOpacity }
+        }
         className="absolute inset-0 z-0"
-        style={{
-          backgroundImage: "url('/homePagebackgroundLogo.png')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          opacity: 1,
-          filter: "drop-shadow(0 0 50px rgba(0, 150, 255, 0.6)) drop-shadow(0 0 100px rgba(0, 150, 255, 0.4))",
-        }}
-      />
-      
+      >
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: "url('/homePagebackgroundLogo.png')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+            filter:
+              "drop-shadow(0 0 50px rgba(0, 150, 255, 0.6)) drop-shadow(0 0 100px rgba(0, 150, 255, 0.4))",
+          }}
+        />
+      </motion.div>
+
       {/* Animated Background Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-gotham-darker via-gotham-dark to-gotham-dark" />
+      <motion.div
+        style={reduceMotion ? undefined : { opacity: overlayOpacity }}
+        className="absolute inset-0 bg-gradient-to-b from-gotham-darker via-gotham-dark/95 to-transparent"
+      />
+
+      {/* Bottom blend into site background */}
+      <div className="absolute inset-x-0 bottom-0 h-56 md:h-72 bg-gradient-to-b from-transparent via-gotham-dark/70 to-gotham-dark z-[1] pointer-events-none" />
       
       {/* Thunderbolt Lightning Effect */}
       <motion.svg
@@ -109,7 +143,8 @@ export function Hero() {
       
       {/* Spotlight Effect */}
       <motion.div
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] opacity-20"
+        style={{ opacity: spotlightOpacity }}
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px]"
         animate={{
           x: ["-50%", "-45%", "-55%", "-50%"],
           y: [0, -20, 20, 0],
@@ -125,7 +160,14 @@ export function Hero() {
       </motion.div>
 
       {/* Content */}
-      <div className="container mx-auto px-4 relative z-10">
+      <motion.div
+        style={
+          reduceMotion
+            ? undefined
+            : { opacity: contentOpacity, y: contentY, scale: contentScale }
+        }
+        className="container mx-auto px-4 relative z-10 will-change-transform"
+      >
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -163,14 +205,14 @@ export function Hero() {
               <Button
                 variant="glow"
                 size="lg"
-                onClick={() => scrollToSection("projects")}
+                onClick={() => scrollToSectionId("projects")}
               >
                 {t.hero.viewProjects}
               </Button>
               <Button
                 variant="outline"
                 size="lg"
-                onClick={() => scrollToSection("contact")}
+                onClick={() => scrollToSectionId("contact")}
               >
                 {t.hero.contactMe}
               </Button>
@@ -198,6 +240,17 @@ export function Hero() {
                 <Linkedin className="w-6 h-6" />
               </motion.a>
               <motion.a
+                href={personalInfo.medium}
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.1, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                className="p-3 rounded-lg glass-panel glow-border-hover"
+                aria-label="Medium"
+              >
+                <MediumIcon className="w-6 h-6" />
+              </motion.a>
+              <motion.a
                 href={personalInfo.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -218,16 +271,20 @@ export function Hero() {
             </div>
           </motion.div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Scroll Indicator */}
-      <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
-        animate={{ y: [0, 10, 0] }}
+      <motion.button
+        type="button"
+        onClick={() => scrollToSectionId("about")}
+        aria-label="Scroll to about section"
+        style={reduceMotion ? undefined : { opacity: scrollHintOpacity }}
+        className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 rounded-full p-2 text-primary transition-colors hover:bg-primary/10"
+        animate={reduceMotion ? undefined : { y: [0, 8, 0] }}
         transition={{ duration: 2, repeat: Infinity }}
       >
-        <ArrowDown className="w-6 h-6 text-primary" />
-      </motion.div>
+        <ArrowDown className="w-6 h-6" />
+      </motion.button>
     </section>
   );
 }

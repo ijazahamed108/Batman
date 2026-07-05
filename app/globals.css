@@ -57,11 +57,27 @@
   * {
     border-color: var(--color-border);
   }
-  
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
   body {
     background-color: var(--color-gotham-dark);
     color: var(--color-foreground);
     font-feature-settings: "rlig" 1, "calt" 1;
+    overflow-x: hidden;
+  }
+
+  section {
+    scroll-margin-top: 5.5rem;
   }
 }
 
@@ -70,6 +86,13 @@
     background-color: color-mix(in srgb, var(--color-card) 40%, transparent);
     backdrop-filter: blur(24px);
     border: 1px solid color-mix(in srgb, var(--color-border) 50%, transparent);
+    transform: translateZ(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .glass-panel {
+      backdrop-filter: blur(12px);
+    }
   }
   
   .glow-border {
@@ -110,5 +133,10 @@
   .font-batman {
     font-family: var(--font-batman);
     letter-spacing: 0.05em;
+  }
+
+  .section-shell {
+    position: relative;
+    isolation: isolate;
   }
 }

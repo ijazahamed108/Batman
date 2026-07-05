@@ -3,17 +3,13 @@
 import { motion } from "framer-motion";
 import { GraduationCap, Award, Users } from "lucide-react";
 import { education } from "@/data/content";
+import { fadeUp, fadeUpDelayed } from "@/lib/motion";
 
 export function Education() {
   return (
-    <section id="education" className="py-20 relative">
+    <section id="education" className="section-shell py-20 relative">
       <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
+        <motion.div {...fadeUp}>
           <h2 className="text-4xl md:text-5xl font-display font-bold mb-4 text-center">
             Academic <span className="text-primary">Training</span>
           </h2>
@@ -24,11 +20,8 @@ export function Education() {
           <div className="max-w-4xl mx-auto space-y-8">
             {education.map((edu, index) => (
               <motion.div
-                key={index}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
+                key={edu.degree}
+                {...fadeUpDelayed(index * 0.08)}
                 className="glass-panel glow-border p-6 rounded-xl hover:border-primary/40 transition-all"
               >
                 <div className="flex items-start gap-4">
