@@ -7,8 +7,10 @@ import { Button } from "@/components/ui/button";
 import { MediumIcon } from "@/components/ui/MediumIcon";
 import { personalInfo } from "@/data/content";
 import { fadeUp, fadeUpDelayed } from "@/lib/motion";
+import { useTranslation } from "@/lib/useTranslation";
 
 export function Contact() {
+  const t = useTranslation();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -22,9 +24,9 @@ export function Contact() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
@@ -34,7 +36,7 @@ export function Contact() {
       } else {
         setSubmitStatus("error");
       }
-    } catch (error) {
+    } catch {
       setSubmitStatus("error");
     } finally {
       setIsSubmitting(false);
@@ -42,7 +44,9 @@ export function Contact() {
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setFormData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
@@ -54,17 +58,17 @@ export function Contact() {
       <div className="container mx-auto px-4">
         <motion.div {...fadeUp}>
           <h2 className="text-4xl md:text-5xl font-display font-bold mb-4 text-center">
-            Commission the Next <span className="text-primary">Mission</span>
+            {t.contact.title}{" "}
+            <span className="text-primary">{t.contact.titleHighlight}</span>
           </h2>
-          <p className="text-center text-muted-foreground mb-12">
-            Let's build something extraordinary together
-          </p>
+          <p className="text-center text-muted-foreground mb-12">{t.contact.subtitle}</p>
 
           <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-8">
-            {/* Contact Info */}
             <motion.div {...fadeUpDelayed(0.08)} className="space-y-6">
               <div className="glass-panel glow-border p-6 rounded-xl">
-                <h3 className="text-2xl font-display font-bold mb-6">Get in Touch</h3>
+                <h3 className="text-2xl font-display font-bold mb-6">
+                  {t.contact.getInTouch}
+                </h3>
 
                 <div className="space-y-4">
                   <a
@@ -75,7 +79,7 @@ export function Contact() {
                       <Mail className="w-5 h-5" />
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground">Email</p>
+                      <p className="text-sm text-muted-foreground">{t.contact.email}</p>
                       <p className="font-medium">{personalInfo.email}</p>
                     </div>
                   </a>
@@ -90,8 +94,8 @@ export function Contact() {
                       <Linkedin className="w-5 h-5" />
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground">LinkedIn</p>
-                      <p className="font-medium">Connect with me</p>
+                      <p className="text-sm text-muted-foreground">{t.contact.linkedin}</p>
+                      <p className="font-medium">{t.contact.connectWithMe}</p>
                     </div>
                   </a>
 
@@ -105,8 +109,8 @@ export function Contact() {
                       <Github className="w-5 h-5" />
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground">GitHub</p>
-                      <p className="font-medium">View my code</p>
+                      <p className="text-sm text-muted-foreground">{t.contact.github}</p>
+                      <p className="font-medium">{t.contact.viewMyCode}</p>
                     </div>
                   </a>
 
@@ -120,8 +124,8 @@ export function Contact() {
                       <MediumIcon className="w-5 h-5" />
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground">Medium</p>
-                      <p className="font-medium">Read my articles</p>
+                      <p className="text-sm text-muted-foreground">{t.contact.medium}</p>
+                      <p className="font-medium">{t.contact.readArticles}</p>
                     </div>
                   </a>
 
@@ -135,20 +139,22 @@ export function Contact() {
                       <Instagram className="w-5 h-5" />
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground">Instagram</p>
-                      <p className="font-medium">Follow me</p>
+                      <p className="text-sm text-muted-foreground">{t.contact.instagram}</p>
+                      <p className="font-medium">{t.contact.followMe}</p>
                     </div>
                   </a>
                 </div>
               </div>
             </motion.div>
 
-            {/* Contact Form */}
             <motion.div {...fadeUpDelayed(0.14)}>
-              <form onSubmit={handleSubmit} className="glass-panel glow-border p-6 rounded-xl space-y-4">
+              <form
+                onSubmit={handleSubmit}
+                className="glass-panel glow-border p-6 rounded-xl space-y-4"
+              >
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium mb-2">
-                    Name
+                    {t.contact.name}
                   </label>
                   <input
                     type="text"
@@ -158,13 +164,13 @@ export function Contact() {
                     onChange={handleChange}
                     required
                     className="w-full px-4 py-3 bg-muted/50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
-                    placeholder="Your name"
+                    placeholder={t.contact.yourName}
                   />
                 </div>
 
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium mb-2">
-                    Email
+                    {t.contact.email}
                   </label>
                   <input
                     type="email"
@@ -174,13 +180,13 @@ export function Contact() {
                     onChange={handleChange}
                     required
                     className="w-full px-4 py-3 bg-muted/50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
-                    placeholder="your.email@example.com"
+                    placeholder={t.contact.yourEmail}
                   />
                 </div>
 
                 <div>
                   <label htmlFor="message" className="block text-sm font-medium mb-2">
-                    Message
+                    {t.contact.message}
                   </label>
                   <textarea
                     id="message"
@@ -190,7 +196,7 @@ export function Contact() {
                     required
                     rows={5}
                     className="w-full px-4 py-3 bg-muted/50 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none"
-                    placeholder="Tell me about your project..."
+                    placeholder={t.contact.tellMeAbout}
                   />
                 </div>
 
@@ -202,11 +208,11 @@ export function Contact() {
                   className="w-full"
                 >
                   {isSubmitting ? (
-                    "Sending..."
+                    t.contact.sending
                   ) : (
                     <>
                       <Send className="w-4 h-4 mr-2" />
-                      Send Message
+                      {t.contact.send}
                     </>
                   )}
                 </Button>
@@ -217,17 +223,17 @@ export function Contact() {
                     animate={{ opacity: 1, y: 0 }}
                     className="text-center text-primary text-sm"
                   >
-                    Message sent successfully! I'll get back to you soon.
+                    {t.contact.success}
                   </motion.p>
                 )}
-                
+
                 {submitStatus === "error" && (
                   <motion.p
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     className="text-center text-red-500 text-sm"
                   >
-                    Failed to send message. Please try again.
+                    {t.contact.error}
                   </motion.p>
                 )}
               </form>

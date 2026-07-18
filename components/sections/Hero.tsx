@@ -277,7 +277,7 @@ export function Hero() {
       <motion.button
         type="button"
         onClick={() => scrollToSectionId("about")}
-        aria-label="Scroll to about section"
+        aria-label={t.hero.scrollToAbout}
         style={reduceMotion ? undefined : { opacity: scrollHintOpacity }}
         className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 rounded-full p-2 text-primary transition-colors hover:bg-primary/10"
         animate={reduceMotion ? undefined : { y: [0, 8, 0] }}

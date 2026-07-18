@@ -1,7 +1,7 @@
 import { useLanguage } from "./LanguageContext";
-import { translations } from "./translations";
+import { translations, type Translations } from "./translations";
 
-export function useTranslation() {
+export function useTranslation(): Translations {
   const { language } = useLanguage();
   return translations[language];
 }
