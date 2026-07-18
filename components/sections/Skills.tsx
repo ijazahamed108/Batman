@@ -6,6 +6,7 @@ import Image from "next/image";
 import { skills } from "@/data/content";
 import { BatmanLogo } from "@/components/ui/BatmanLogo";
 import { fadeUp, fadeUpDelayed } from "@/lib/motion";
+import { useTranslation } from "@/lib/useTranslation";
 
 const skillLogos: Record<string, string> = {
   TypeScript: "/skillLogos/typescript.svg",
@@ -36,7 +37,15 @@ const skillLogos: Record<string, string> = {
   Git: "/skillLogos/git.svg",
 };
 
-function SlotWheel({ items, category }: { items: string[]; category: string }) {
+function SlotWheel({
+  items,
+  category,
+  dragLabel,
+}: Readonly<{
+  items: string[];
+  category: string;
+  dragLabel: string;
+}>) {
   const [isDragging, setIsDragging] = useState(false);
   const y = useMotionValue(0);
   const constraintsRef = useRef(null);
@@ -51,13 +60,8 @@ function SlotWheel({ items, category }: { items: string[]; category: string }) {
       </div>
 
       <div className="relative h-[360px] overflow-hidden glass-panel glow-border rounded-2xl">
-        {/* Top gradient overlay */}
         <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-gotham-dark to-transparent z-10 pointer-events-none" />
-        
-        {/* Selection indicator */}
         <div className="absolute top-1/2 left-0 right-0 -translate-y-1/2 h-[120px] border-y-2 border-primary/50 bg-primary/5 pointer-events-none z-10" />
-        
-        {/* Bottom gradient overlay */}
         <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-gotham-dark to-transparent z-10 pointer-events-none" />
 
         <motion.div
@@ -95,14 +99,13 @@ function SlotWheel({ items, category }: { items: string[]; category: string }) {
         </motion.div>
       </div>
 
-      <div className="text-center mt-2 text-xs text-muted-foreground">
-        Drag to scroll
-      </div>
+      <div className="text-center mt-2 text-xs text-muted-foreground">{dragLabel}</div>
     </div>
   );
 }
 
 export function Skills() {
+  const t = useTranslation();
   const skillCategories = Object.entries(skills);
 
   return (
@@ -112,26 +115,29 @@ export function Skills() {
           <div className="flex items-center justify-center gap-4 mb-4">
             <BatmanLogo className="w-12 h-12 text-primary" />
             <h2 className="text-4xl md:text-5xl font-display font-bold text-center">
-              The <span className="text-primary">Utility Belt</span>
+              {t.skills.title} <span className="text-primary">{t.skills.titleHighlight}</span>
             </h2>
             <BatmanLogo className="w-12 h-12 text-primary" />
           </div>
-          <p className="text-center text-muted-foreground mb-12">
-            Drag the wheels to explore my arsenal
-          </p>
+          <p className="text-center text-muted-foreground mb-12">{t.skills.subtitle}</p>
 
-          {/* Slot Machine Wheels */}
           <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {skillCategories.map(([category, items], index) => (
                 <motion.div key={category} {...fadeUpDelayed(index * 0.06)}>
-                  <SlotWheel items={items} category={category} />
+                  <SlotWheel
+                    items={items}
+                    category={
+                      t.skills.categories[category as keyof typeof t.skills.categories] ??
+                      category
+                    }
+                    dragLabel={t.skills.dragToScroll}
+                  />
                 </motion.div>
               ))}
             </div>
           </div>
 
-          {/* Batman Logo Center */}
           <motion.div
             className="flex justify-center mt-12"
             animate={{ scale: [1, 1.1, 1] }}

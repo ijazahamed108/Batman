@@ -8,7 +8,7 @@ import {
   type MotionValue,
 } from "framer-motion";
 import { Cloud, Layers, MapPin, Sparkles, Target } from "lucide-react";
-import { aboutPitch, personalInfo } from "@/data/content";
+import { useTranslation } from "@/lib/useTranslation";
 import { useRef } from "react";
 
 const pillarIcons = [Cloud, Layers, Target];
@@ -105,6 +105,7 @@ function PitchPillar({
 }
 
 export function About() {
+  const t = useTranslation();
   const reduceMotion = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
@@ -135,18 +136,20 @@ export function About() {
         <div className="mx-auto max-w-5xl">
           <div className="mb-10 text-center md:mb-14">
             <p className="mb-3 text-sm font-medium uppercase tracking-[0.25em] text-primary">
-              The Origin Story
+              {t.about.eyebrow}
             </p>
             <h2 className="mb-4 font-display text-4xl font-bold md:text-5xl">
-              The Engineer Behind the <span className="text-primary">Mask</span>
+              {t.about.title} <span className="text-primary">{t.about.titleHighlight}</span>
             </h2>
             <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
               <span className="inline-flex items-center gap-1.5">
                 <MapPin className="h-4 w-4 text-primary" />
-                {personalInfo.location}
+                {t.common.location}
               </span>
               <span className="hidden sm:inline text-border">|</span>
-              <span>Rooted in {personalInfo.originLocation}</span>
+              <span>
+                {t.about.rootedIn} {t.common.originLocation}
+              </span>
             </div>
           </div>
 
@@ -169,15 +172,15 @@ export function About() {
               className="relative mb-8 space-y-4 border-b border-border/50 pb-8"
             >
               <h3 className="font-display text-2xl font-bold leading-tight text-foreground md:text-4xl">
-                {aboutPitch.headline}
+                {t.about.headline}
               </h3>
-              <p className="text-base text-primary md:text-lg">{aboutPitch.subheadline}</p>
+              <p className="text-base text-primary md:text-lg">{t.about.subheadline}</p>
             </motion.div>
 
             <div className="relative mb-8 space-y-5">
-              {aboutPitch.paragraphs.map((paragraph, index) => (
+              {t.about.paragraphs.map((paragraph, index) => (
                 <PitchParagraph
-                  key={paragraph.slice(0, 24)}
+                  key={`${index}-${paragraph.slice(0, 16)}`}
                   text={paragraph}
                   index={index}
                   progress={scrollYProgress}
@@ -187,7 +190,7 @@ export function About() {
             </div>
 
             <div className="relative mb-8 grid gap-4 md:grid-cols-3">
-              {aboutPitch.pillars.map((pillar, index) => (
+              {t.about.pillars.map((pillar, index) => (
                 <PitchPillar
                   key={pillar.title}
                   title={pillar.title}
@@ -203,7 +206,7 @@ export function About() {
               style={reduceMotion ? undefined : { opacity: highlightsOpacity }}
               className="relative flex flex-wrap justify-center gap-3"
             >
-              {aboutPitch.highlights.map((item) => (
+              {t.about.highlights.map((item) => (
                 <span
                   key={item}
                   className="rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-primary"

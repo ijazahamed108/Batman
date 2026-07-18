@@ -2,23 +2,24 @@
 
 import { motion } from "framer-motion";
 import { GraduationCap, Award, Users } from "lucide-react";
-import { education } from "@/data/content";
 import { fadeUp, fadeUpDelayed } from "@/lib/motion";
+import { useTranslation } from "@/lib/useTranslation";
 
 export function Education() {
+  const t = useTranslation();
+
   return (
     <section id="education" className="section-shell py-20 relative">
       <div className="container mx-auto px-4">
         <motion.div {...fadeUp}>
           <h2 className="text-4xl md:text-5xl font-display font-bold mb-4 text-center">
-            Academic <span className="text-primary">Training</span>
+            {t.education.title}{" "}
+            <span className="text-primary">{t.education.titleHighlight}</span>
           </h2>
-          <p className="text-center text-muted-foreground mb-12">
-            Educational background and achievements
-          </p>
+          <p className="text-center text-muted-foreground mb-12">{t.education.subtitle}</p>
 
           <div className="max-w-4xl mx-auto space-y-8">
-            {education.map((edu, index) => (
+            {t.education.items.map((edu, index) => (
               <motion.div
                 key={edu.degree}
                 {...fadeUpDelayed(index * 0.08)}
@@ -41,9 +42,9 @@ export function Education() {
                       </span>
                     </div>
 
-                    {edu.subjects && (
+                    {"subjects" in edu && edu.subjects && (
                       <div className="mb-4">
-                        <p className="text-sm font-semibold mb-2">Key Subjects:</p>
+                        <p className="text-sm font-semibold mb-2">{t.education.keySubjects}</p>
                         <div className="flex flex-wrap gap-2">
                           {edu.subjects.map((subject) => (
                             <span
@@ -57,15 +58,18 @@ export function Education() {
                       </div>
                     )}
 
-                    {edu.leadership && (
+                    {"leadership" in edu && edu.leadership && (
                       <div>
                         <p className="text-sm font-semibold mb-2 flex items-center gap-2">
                           <Users className="w-4 h-4 text-primary" />
-                          Leadership Activities:
+                          {t.education.leadership}
                         </p>
                         <ul className="space-y-1">
-                          {edu.leadership.map((activity, i) => (
-                            <li key={i} className="text-sm text-muted-foreground flex gap-2">
+                          {edu.leadership.map((activity) => (
+                            <li
+                              key={activity}
+                              className="text-sm text-muted-foreground flex gap-2"
+                            >
                               <span className="text-primary">▸</span>
                               <span>{activity}</span>
                             </li>

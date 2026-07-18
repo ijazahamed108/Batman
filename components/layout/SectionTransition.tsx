@@ -3,26 +3,28 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { type SectionId, useActiveSection } from "@/lib/useActiveSection";
-
-const SECTION_LABELS: Record<SectionId, string> = {
-  home: "Home",
-  about: "About",
-  skills: "Skills",
-  experience: "Experience",
-  projects: "Projects",
-  certifications: "Certifications",
-  education: "Education",
-  contact: "Contact",
-};
+import { useTranslation } from "@/lib/useTranslation";
 
 const SKIP_TRANSITIONS = new Set<string>(["home>about"]);
 const HIDDEN_SECTION_CUES = new Set<SectionId>(["home"]);
 
 export function SectionTransition() {
+  const t = useTranslation();
   const activeSection = useActiveSection();
   const [displaySection, setDisplaySection] = useState<SectionId | null>(null);
   const lastSectionRef = useRef<SectionId>("home");
   const timeoutRef = useRef<number | null>(null);
+
+  const sectionLabels: Record<SectionId, string> = {
+    home: t.nav.home,
+    about: t.nav.about,
+    skills: t.nav.skills,
+    experience: t.nav.experience,
+    projects: t.nav.projects,
+    certifications: t.nav.certifications,
+    education: t.nav.education,
+    contact: t.nav.contact,
+  };
 
   useEffect(() => {
     const previous = lastSectionRef.current;
@@ -67,7 +69,7 @@ export function SectionTransition() {
               className="h-px bg-primary"
             />
             <span className="font-display text-xs font-bold uppercase tracking-[0.22em] text-primary">
-              {SECTION_LABELS[displaySection]}
+              {sectionLabels[displaySection]}
             </span>
           </div>
         </motion.div>

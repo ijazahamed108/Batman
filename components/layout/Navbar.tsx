@@ -23,7 +23,7 @@ export function Navbar() {
     { name: t.skills, href: "#skills", id: "skills" },
     { name: t.experience, href: "#experience", id: "experience" },
     { name: t.projects, href: "#projects", id: "projects" },
-    { name: "Certifications", href: "#certifications", id: "certifications" },
+    { name: t.certifications, href: "#certifications", id: "certifications" },
     { name: t.education, href: "#education", id: "education" },
     { name: t.contact, href: "#contact", id: "contact" },
   ];
@@ -64,7 +64,7 @@ export function Navbar() {
           <div className="hidden md:flex items-center gap-1">
             {navItems.map((item) => (
               <button
-                key={item.name}
+                key={item.id}
                 onClick={() => handleNavClick(item.href)}
                 className={cn(
                   "px-4 py-2 rounded-lg text-sm font-medium transition-all relative",
@@ -105,7 +105,7 @@ export function Navbar() {
           >
             {navItems.map((item) => (
               <button
-                key={item.name}
+                key={item.id}
                 onClick={() => handleNavClick(item.href)}
                 className={cn(
                   "block w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-all",

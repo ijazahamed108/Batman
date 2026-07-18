@@ -4,8 +4,9 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Globe, ChevronDown } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
+import type { Language } from "@/lib/translations";
 
-const languages = [
+const languages: { code: Language; name: string; flag: string }[] = [
   { code: "en", name: "English", flag: "🇬🇧" },
   { code: "te", name: "తెలుగు", flag: "🇮🇳" },
   { code: "hi", name: "हिंदी", flag: "🇮🇳" },
@@ -53,7 +54,7 @@ export function LanguageSelector() {
                 <motion.button
                   key={lang.code}
                   onClick={() => {
-                    setLanguage(lang.code as any);
+                    setLanguage(lang.code);
                     setIsOpen(false);
                   }}
                   whileHover={{ backgroundColor: "rgba(245, 197, 66, 0.1)" }}
