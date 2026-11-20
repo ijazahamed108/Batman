@@ -135,6 +135,15 @@ export const skills = {
 
 export const projects = [
   {
+    id: 9,
+    title: "Support Response Assistant — RAG Pipeline",
+    description:
+      "Retrieval-Augmented Generation customer-support assistant: MiniLM embeddings with cosine top-k retrieval, Gemini answers grounded strictly in retrieved context via a LangChain LCEL chain, and a similarity-threshold gate with deterministic fallback to block hallucinations. 65 offline unit tests with mocked LLM/embeddings.",
+    tech: ["Python", "LangChain", "Google Gemini", "sentence-transformers", "Streamlit", "Docker"],
+    category: ["AI", "Python"],
+    link: "https://github.com/ijazahamed108/RAGAssistant",
+  },
+  {
     id: 1,
     title: "Pocket Library",
     description: "Open-source e-book platform with secure auth, RBAC, and a dynamic content management system",

@@ -167,6 +167,11 @@ const en = {
         description:
           "MV3 extension that authors and replays interactive walkthroughs via a Shadow DOM overlay, with JWT auth, RBAC, Zod-validated APIs, and resilient element targeting (anchor path/XPath/fingerprinting)",
       },
+      9: {
+        title: "Support Response Assistant — RAG Pipeline",
+        description:
+          "Retrieval-Augmented Generation customer-support assistant: MiniLM embeddings with cosine top-k retrieval, Gemini answers grounded strictly in retrieved context via a LangChain LCEL chain, and a similarity-threshold gate with deterministic fallback to block hallucinations. 65 offline unit tests with mocked LLM/embeddings.",
+      },
     },
   },
   certifications: {
@@ -450,6 +455,11 @@ const te = {
         description:
           "Shadow DOM ఓవర్‌లే ద్వారా ఇంటరాక్టివ్ వాక్‌త్రూలను రచించి/ప్లే చేసే MV3 ఎక్స్‌టెన్షన్ — JWT ఆథ్, RBAC, Zod-వాలిడేటెడ్ APIలు మరియు స్థిరమైన ఎలిమెంట్ టార్గెటింగ్",
       },
+      9: {
+        title: "సపోర్ట్ రెస్పాన్స్ అసిస్టెంట్ — RAG పైప్‌లైన్",
+        description:
+          "Retrieval-Augmented Generation కస్టమర్ సపోర్ట్ అసిస్టెంట్: MiniLM ఎంబెడ్డింగ్స్‌తో కొసైన్ టాప్-k రిట్రీవల్, LangChain LCEL చైన్ ద్వారా రిట్రీవ్ చేసిన కాంటెక్స్ట్‌కే పరిమితమైన Gemini సమాధానాలు, మరియు హాలూసినేషన్లను నిరోధించే సిమిలారిటీ-థ్రెషోల్డ్ గేట్ & డిటర్మినిస్టిక్ ఫాల్‌బ్యాక్. మాక్ చేసిన LLM/ఎంబెడ్డింగ్స్‌తో 65 ఆఫ్‌లైన్ యూనిట్ టెస్టులు.",
+      },
     },
   },
   certifications: {
@@ -723,6 +733,11 @@ const hi = {
         title: "क्रोम वेबसाइट वॉकथ्रू एक्सटेंशन",
         description:
           "Shadow DOM ओवरले से इंटरैक्टिव वॉकथ्रू लिखने/चलाने वाला MV3 एक्सटेंशन — JWT ऑथ, RBAC, Zod-वैलिडेटेड API और मज़बूत एलिमेंट टारगेटिंग",
+      },
+      9: {
+        title: "सपोर्ट रिस्पॉन्स असिस्टेंट — RAG पाइपलाइन",
+        description:
+          "Retrieval-Augmented Generation कस्टमर सपोर्ट असिस्टेंट: MiniLM एम्बेडिंग्स के साथ कोसाइन टॉप-k रिट्रीवल, LangChain LCEL चेन के ज़रिए केवल रिट्रीव किए गए कॉन्टेक्स्ट पर आधारित Gemini उत्तर, और हैलुसिनेशन रोकने के लिए सिमिलैरिटी-थ्रेशोल्ड गेट व डिटरमिनिस्टिक फ़ॉलबैक। मॉक किए गए LLM/एम्बेडिंग्स के साथ 65 ऑफ़लाइन यूनिट टेस्ट।",
       },
     },
   },

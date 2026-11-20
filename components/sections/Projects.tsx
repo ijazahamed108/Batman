@@ -8,7 +8,7 @@ import { projects } from "@/data/content";
 import { easeSmooth, fadeUp } from "@/lib/motion";
 import { useTranslation } from "@/lib/useTranslation";
 
-const filterKeys = ["All", "React", "Node.js", "AWS", "Java"] as const;
+const filterKeys = ["All", "AI", "React", "Node.js", "Python", "AWS", "Java"] as const;
 
 export function Projects() {
   const t = useTranslation();
@@ -48,8 +48,9 @@ export function Projects() {
           <motion.div layout className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 max-w-7xl mx-auto">
             <AnimatePresence mode="popLayout">
               {filteredProjects.map((project, index) => {
-                  const itemKey = project.id as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+                  const itemKey = project.id as keyof typeof t.projects.items;
                   const item = t.projects.items[itemKey];
+                  const link = "link" in project ? project.link : undefined;
 
                 return (
                   <motion.div
@@ -70,12 +71,25 @@ export function Projects() {
                           <div className="p-3 rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-all">
                             <Code2 className="w-6 h-6" />
                           </div>
-                          <motion.div
-                            whileHover={{ scale: 1.1, rotate: 5 }}
-                            className="p-2 rounded-lg hover:bg-primary/10 cursor-pointer"
-                          >
-                            <ExternalLink className="w-5 h-5 text-muted-foreground hover:text-primary transition-colors" />
-                          </motion.div>
+                          {link ? (
+                            <motion.a
+                              href={link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              aria-label={`Open ${item?.title ?? project.title} on GitHub`}
+                              whileHover={{ scale: 1.1, rotate: 5 }}
+                              className="p-2 rounded-lg hover:bg-primary/10 cursor-pointer"
+                            >
+                              <ExternalLink className="w-5 h-5 text-muted-foreground hover:text-primary transition-colors" />
+                            </motion.a>
+                          ) : (
+                            <motion.div
+                              whileHover={{ scale: 1.1, rotate: 5 }}
+                              className="p-2 rounded-lg hover:bg-primary/10 cursor-pointer"
+                            >
+                              <ExternalLink className="w-5 h-5 text-muted-foreground hover:text-primary transition-colors" />
+                            </motion.div>
+                          )}
                         </div>
                         <CardTitle className="text-xl font-display">
                           {item?.title ?? project.title}
